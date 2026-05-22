@@ -12,7 +12,7 @@ For the full product vision and locked decisions, see [`memory/tee-orchestrator-
 
 ## Live Redaction
 
-![Live Redaction](Project%20Preview/Live%20redaction%20.png)
+![Live Redaction](Project%20Preview/Live%20redaction.png)
 
 ## Cloud Stream and Non Cloud Stream Data
 
