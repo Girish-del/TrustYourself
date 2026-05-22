@@ -1,8 +1,12 @@
 # TrustYourself
 
-A hackathon prototype that redacts sensitive content, routes work between a **local** model (Ollama / Phi-3) and a **cloud** model (OpenAI), reassembles the answer, and appends **signed** events to an audit log.
+A Local Real-World Problem Solver prototype that redacts sensitive content, routes work between a **local** model (Ollama / Phi-3) and a **cloud** model (OpenAI), reassembles the answer, and appends **signed** events to an audit log.
 
 For the full product vision and locked decisions, see [`memory/tee-orchestrator-design.md`](memory/tee-orchestrator-design.md).
+
+## Problem I noticed and how I solved it
+
+I noticed developers and users routinely leak sensitive data (API keys, PII, internal hostnames, proprietary code) into cloud LLM requests without a verifiable audit trail. I solved this by building a locally-hosted prototype that: (1) redacts sensitive spans with conservative, explainable rules; (2) routes secret-bearing queries to a local model while sending tokenized structure to the cloud; and (3) produces cryptographically signed receipts and a Merkle-based audit so anyone can verify what the cloud actually saw.
 
 ## Project Preview
 
@@ -262,4 +266,4 @@ memory/            tee-orchestrator-design.md (locked design source)
 
 ## Status
 
-Hackathon prototype. Production story (real TEE attestation, IDE integration, multi-provider routing) is deferred per the design doc.
+Local Real-World Problem Solver prototype. Production story (real TEE attestation, IDE integration, multi-provider routing) is deferred per the design doc.

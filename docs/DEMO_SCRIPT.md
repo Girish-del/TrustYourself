@@ -41,7 +41,7 @@
 
 **Verify (10s):** Click "Show signed audit log." JSON drops out. Show the Merkle root. "In production this signing key lives inside an AWS Nitro Enclave with hardware attestation. Today's demo uses a software key — the protocol and verifier are identical."
 
-**Closer (5s):** "v1 hackathon. v2 ships in 2 days on Nitro. Same code, hardware-rooted trust."
+**Closer (5s):** "v1 prototype. v2 ships in 2 days on Nitro. Same code, hardware-rooted trust."
 
 ---
 

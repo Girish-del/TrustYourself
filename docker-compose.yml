@@ -1,6 +1,6 @@
 # docker-compose for v2 deployment readiness.
 #
-# v1 (hackathon) just runs `npm run dev` on bare metal.
+# v1 (local prototype) just runs `npm run dev` on bare metal.
 # v2 packages this as a Nitro Enclave (eif image), but having compose stand-up
 # locally helps when you want to test the full stack on a clean machine.
 #
