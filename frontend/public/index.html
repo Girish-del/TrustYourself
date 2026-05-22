@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TrustYourself — Confidential AI Orchestrator</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="theme-dark">
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◐</span>
+    <span class="brand-name">TrustYourself</span>
+    <span class="brand-tag">Confidential AI Orchestrator</span>
+  </div>
+  <div class="health" id="health">
+    <span class="dot dot-node" data-state="unknown" title="Node service"></span>
+    <span class="dot dot-py" data-state="unknown" title="Python service"></span>
+    <span class="dot dot-ollama" data-state="unknown" title="Ollama / Phi-3"></span>
+    <span class="health-label" id="health-label">checking…</span>
+    <a class="verifier-link" href="/verifier.html" target="_blank">Open verifier ↗</a>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- ============================================================ -->
+  <!-- Beat 1: Input + Live Redaction                                -->
+  <!-- ============================================================ -->
+  <section class="panel panel-input">
+    <header class="panel-h">
+      <h2><span class="beat-pill">Beat 1</span> Live redaction</h2>
+      <div class="examples">
+        <button data-example="auth" class="ex-btn">Auth handler</button>
+        <button data-example="medical" class="ex-btn">Medical query</button>
+        <button data-example="infra" class="ex-btn">Infra config</button>
+      </div>
+    </header>
+    <textarea
+      id="input"
+      spellcheck="false"
+      placeholder="Paste code, a config, or a prompt with secrets. We redact, route, reassemble, and sign."></textarea>
+    <footer class="panel-f">
+      <span class="hint" id="size-hint">0 / 10 KB</span>
+      <button id="run-btn" class="primary">Run pipeline ▶</button>
+    </footer>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Redaction sidebar                                              -->
+  <!-- ============================================================ -->
+  <section class="panel panel-redactions">
+    <header class="panel-h">
+      <h2>Redactions</h2>
+      <div class="legend">
+        <span class="legend-chip cat-secret">secret</span>
+        <span class="legend-chip cat-pii">PII</span>
+        <span class="legend-chip cat-proprietary">proprietary</span>
+        <span class="legend-chip cat-hostname">hostname</span>
+      </div>
+    </header>
+    <div class="redaction-list" id="redaction-list">
+      <p class="empty-hint">Load an example or paste content, then click <b>Run pipeline</b>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Beat 2: Two streaming panes                                    -->
+  <!-- ============================================================ -->
+  <section class="panel panel-cloud">
+    <header class="panel-h">
+      <h2><span class="beat-pill">Beat 2</span> Cloud stream</h2>
+      <div class="meta">
+        <span class="model-tag" id="cloud-model">gpt-4o-mini</span>
+        <span class="latency" id="cloud-latency">—</span>
+      </div>
+    </header>
+    <pre class="stream" id="cloud-stream"></pre>
+  </section>
+
+  <section class="panel panel-local">
+    <header class="panel-h">
+      <h2><span class="beat-pill">Beat 2</span> Local stream</h2>
+      <div class="meta">
+        <span class="model-tag" id="local-model">phi3:mini</span>
+        <span class="latency" id="local-latency">—</span>
+      </div>
+    </header>
+    <pre class="stream" id="local-stream"></pre>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Reassembled output                                             -->
+  <!-- ============================================================ -->
+  <section class="panel panel-output">
+    <header class="panel-h">
+      <h2>Reassembled answer</h2>
+      <div class="meta">
+        <span id="reassemble-decisions" class="decision-trail"></span>
+      </div>
+    </header>
+    <pre class="stream" id="output-stream">
+<span class="muted">Output will appear here once both streams finish + reassembler runs.</span>
+    </pre>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Beat 3: Receipt                                                -->
+  <!-- ============================================================ -->
+  <section class="panel panel-receipt">
+    <header class="panel-h">
+      <h2><span class="beat-pill">Beat 3</span> Signed receipt</h2>
+      <a class="verifier-link inline" href="/verifier.html" target="_blank">Verify ↗</a>
+    </header>
+    <div class="receipt" id="receipt">
+      <div class="receipt-row">
+        <span class="receipt-k">Session</span>
+        <span class="receipt-v" id="r-session">—</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-k">Events</span>
+        <span class="receipt-v" id="r-events">0</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-k">Merkle root</span>
+        <span class="receipt-v mono" id="r-root">—</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-k">Verify key</span>
+        <span class="receipt-v mono" id="r-vk">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Audit panes — collapsed by default (Decision 7)                -->
+  <!-- ============================================================ -->
+  <section class="panel panel-audit">
+    <details>
+      <summary>
+        <span class="verify-badge">Verify</span>
+        Cloud audit pane — exact bytes sent to the cloud
+      </summary>
+      <div class="audit-note" id="cloud-audit-note">No call yet.</div>
+      <pre class="audit-bytes" id="cloud-audit-bytes"></pre>
+    </details>
+    <details>
+      <summary>
+        <span class="verify-badge">Verify</span>
+        Local audit pane — full prompt to local model (TEE-bound in production)
+      </summary>
+      <div class="audit-note" id="local-audit-note">No call yet.</div>
+      <pre class="audit-bytes" id="local-audit-bytes"></pre>
+    </details>
+  </section>
+
+</main>
+
+<footer class="bottombar">
+  <span>Hackathon prototype · Decisions 1-9 locked · v1 software-keyed receipts (TEE-attested in production)</span>
+</footer>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>

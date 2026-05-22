@@ -1,0 +1,54 @@
+# docker-compose for v2 deployment readiness.
+#
+# v1 (hackathon) just runs `npm run dev` on bare metal.
+# v2 packages this as a Nitro Enclave (eif image), but having compose stand-up
+# locally helps when you want to test the full stack on a clean machine.
+#
+# Usage (optional, NOT in v1 build scope):
+#   docker compose up --build
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    # On systems with NVIDIA GPU, uncomment below for CUDA acceleration.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=phi3:mini
+      - FRONTEND_PORT=3000
+    depends_on:
+      - ollama
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_HOST=backend
+      - BACKEND_PORT=8001
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=gpt-4o-mini
+    depends_on:
+      - backend
+
+volumes:
+  ollama-data:

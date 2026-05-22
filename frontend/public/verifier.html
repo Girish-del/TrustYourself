@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TrustYourself Verifier</title>
+<link rel="stylesheet" href="/styles.css" />
+<style>
+  .verifier-grid {
+    max-width: 980px;
+    margin: 24px auto;
+    padding: 0 24px;
+    display: grid;
+    gap: 18px;
+  }
+  .v-row { display: flex; gap: 8px; align-items: center; }
+  .v-row input {
+    flex: 1;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 9px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+  }
+  .v-row input:focus { border-color: var(--accent); }
+  .v-result {
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 80px;
+    transition: background-color 200ms, border-color 200ms;
+  }
+  .v-result.ok    { border-color: var(--green); background: #15281d; }
+  .v-result.bad   { border-color: var(--red);   background: #2a1818; }
+  .v-icon { font-size: 36px; line-height: 1; }
+  .v-icon.ok  { color: var(--green); }
+  .v-icon.bad { color: var(--red); }
+  .v-stats { font-family: var(--font-mono); font-size: 12.5px; color: var(--text-dim); }
+  .events-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .events-table th, .events-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    color: var(--text-dim);
+  }
+  .events-table th { color: var(--text-mute); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; }
+  .events-table td.event-type { color: var(--accent); }
+  .events-table td.hash { color: var(--text); }
+  .events-table tr.bad td { color: var(--red); }
+</style>
+</head>
+<body class="theme-dark">
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◐</span>
+    <span class="brand-name">TrustYourself</span>
+    <span class="brand-tag">Public Verifier</span>
+  </div>
+  <a class="verifier-link" href="/">← Back to demo</a>
+</header>
+
+<main class="verifier-grid">
+
+  <section class="panel">
+    <header class="panel-h">
+      <h2>Verify a session receipt</h2>
+    </header>
+    <div style="padding: 18px 18px 4px; color: var(--text-dim); font-size: 13px;">
+      Paste the Merkle root from the demo's receipt panel. We'll fetch the signed
+      audit log, recompute the root, and verify every ed25519 signature.
+    </div>
+    <div style="padding: 14px 18px;">
+      <div class="v-row">
+        <input id="root-input" type="text" placeholder="paste 64-char hex Merkle root…" autofocus />
+        <button id="verify-btn" class="primary">Verify ✓</button>
+        <button id="autofill-btn" class="ex-btn" title="Pull current session from the running orchestrator">Use current session</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="v-result" id="v-result">
+    <span class="v-icon" id="v-icon">◐</span>
+    <div>
+      <div id="v-headline" style="font-size: 16px;">Awaiting input.</div>
+      <div class="v-stats" id="v-stats"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-h">
+      <h2>Audit log entries</h2>
+      <span class="model-tag" id="entry-count">0</span>
+    </header>
+    <div style="padding: 12px 16px; overflow-x: auto;">
+      <table class="events-table" id="events-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Event</th>
+            <th>Timestamp</th>
+            <th>Payload hash</th>
+            <th>Signature</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bottombar">
+  <span>v1 software-keyed receipts (TEE-attested in production · Decision 3 / T1)</span>
+</footer>
+
+<script type="module" src="/verifier.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "OpenAI API key",
+    "input": "Use this key: OPENAI_KEY_PLACEHOLDER",
+    "must_redact": ["OPENAI_KEY_PLACEHOLDER"]
+  },
+  {
+    "name": "AWS access + secret keys",
+    "input": "export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE\nexport AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+    "must_redact": ["AKIAIOSFODNN7EXAMPLE", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"]
+  },
+  {
+    "name": "GitHub PAT in URL",
+    "input": "git clone https://ghp_AbCdEfGhIjKlMnOpQrStUvWxYz0123456789@github.com/acme/private-repo.git",
+    "must_redact": ["ghp_AbCdEfGhIjKlMnOpQrStUvWxYz0123456789"]
+  },
+  {
+    "name": "JWT bearer token",
+    "input": "headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'",
+    "must_redact": ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"]
+  },
+  {
+    "name": "Email + phone PII",
+    "input": "Contact john.doe@acmecorp.com or call (415) 555-0192 for support",
+    "must_redact": ["john.doe@acmecorp.com", "(415) 555-0192"]
+  },
+  {
+    "name": "Multi-line PEM key",
+    "input": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAvLong base64 here\n-----END RSA PRIVATE KEY-----",
+    "must_redact": ["-----BEGIN RSA PRIVATE KEY-----"]
+  },
+  {
+    "name": "Internal hostname",
+    "input": "Connect to prod-db-01.internal.acme.io:5432 with credentials in vault",
+    "must_redact": ["prod-db-01.internal.acme.io"]
+  },
+  {
+    "name": "Password literal",
+    "input": "db_config = { 'host': 'localhost', 'password': 'hunter2-supersecret-2026' }",
+    "must_redact": ["hunter2-supersecret-2026"]
+  },
+  {
+    "name": "Stripe live key",
+    "input": "STRIPE_SECRET = 'SLACK_TOKEN_PLACEHOLDER'",
+    "must_redact": ["SLACK_TOKEN_PLACEHOLDER"]
+  },
+  {
+    "name": "Slack token",
+    "input": "SLACK_WEBHOOK = 'SLACK_TOKEN_PLACEHOLDER'",
+    "must_redact": ["SLACK_TOKEN_PLACEHOLDER"]
+  },
+  {
+    "name": "Google API key",
+    "input": "const MAPS_KEY = 'AIzaSyDxKL5nP8Q_Rabcdefghijk_lmnopqrstuvw'",
+    "must_redact": ["AIzaSyDxKL5nP8Q_Rabcdefghijk_lmnopqrstuvw"]
+  },
+  {
+    "name": "Private IP address",
+    "input": "ssh deploy@10.0.4.27 to access the build server",
+    "must_redact": ["10.0.4.27"]
+  },
+  {
+    "name": "False-positive guard (innocent variables)",
+    "input": "let userCount = 47; let totalRevenue = 12345.67; const RETRY_LIMIT = 3;",
+    "must_redact": [],
+    "must_keep": ["userCount", "totalRevenue", "RETRY_LIMIT"]
+  },
+  {
+    "name": "False-positive guard (common code patterns)",
+    "input": "function calculateTotal(items) { return items.reduce((acc, x) => acc + x.price, 0); }",
+    "must_redact": [],
+    "must_keep": ["calculateTotal", "items", "reduce"]
+  }
+]

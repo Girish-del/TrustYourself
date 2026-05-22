@@ -1,0 +1,20 @@
+[
+  {
+    "id": "auth_handler",
+    "label": "Auth handler with API key",
+    "category": "secrets",
+    "prompt": "Refactor this authentication handler to be more idiomatic:\n\nfunction authenticate(req, res) {\n  const STRIPE_KEY = 'STRIPE_KEY_PLACEHOLDER';\n  const headers = {\n    'Authorization': `Bearer ${STRIPE_KEY}`,\n    'X-User-Email': 'admin@acmecorp.com'\n  };\n  return fetch('https://api.stripe.com/v1/charges', { headers });\n}"
+  },
+  {
+    "id": "medical_query",
+    "label": "Medical record query",
+    "category": "pii",
+    "prompt": "Help me write a SQL query to find patients with peanut allergies:\n\n-- Patient: John Doe\n-- DOB: 1985-03-15\n-- MRN: PT-4291847\n-- Phone: (415) 555-0192\n-- Email: john.doe@hospitalexample.com\n\nSELECT * FROM patients WHERE allergies LIKE '%peanut%' AND mrn = 'PT-4291847';"
+  },
+  {
+    "id": "infra_config",
+    "label": "Internal infra config",
+    "category": "mixed",
+    "prompt": "Why is this Terraform module failing to apply?\n\nresource \"aws_instance\" \"web\" {\n  ami           = \"ami-0c55b159cbfafe1f0\"\n  instance_type = \"t3.micro\"\n  user_data     = <<EOF\n#!/bin/bash\nexport AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE\nexport AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\nEOF\n  tags = {\n    Name = \"prod-web-01.internal.acme.io\"\n  }\n}"
+  }
+]

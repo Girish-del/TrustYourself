@@ -1,0 +1,20 @@
+{
+  "name": "trustyourself",
+  "version": "0.1.0",
+  "description": "TEE-style orchestrator that keeps sensitive data out of cloud LLM training pipelines.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --kill-others --prefix-colors \"yellow,cyan\" --names \"py,node\" \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "python -m uvicorn main:app --app-dir backend --port 8001 --reload --reload-exclude .venv",
+    "dev:frontend": "node frontend/server.js",
+    "preflight": "python scripts/preflight.py",
+    "adversarial": "python scripts/adversarial_corpus.py"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "openai": "^4.76.0"
+  }
+}
