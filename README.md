@@ -4,6 +4,31 @@ A hackathon prototype that redacts sensitive content, routes work between a **lo
 
 For the full product vision and locked decisions, see [`memory/tee-orchestrator-design.md`](memory/tee-orchestrator-design.md).
 
+## Project Preview
+
+## Page Preview
+
+![Page Preview](Project%20Preview/Page%20Preview.png)
+
+## Live Redaction
+
+![Live Redaction](Project%20Preview/Live%20redaction%20.png)
+
+## Cloud Stream and Non Cloud Stream Data
+
+![Cloud Stream and Non Cloud Stream Data](Project%20Preview/Cloud%20stream%20and%20non%20cloud%20stream%20data.png)
+
+## Reassembled Answer and Signed Receipt
+
+![Reassembled Answer and Signed Receipt](Project%20Preview/Reassembeled%20Answer%20and%20Signed%20receipt.png)
+
+## Cloud Sent Data and Final Query
+
+![Cloud Sent Data and Final Query](Project%20Preview/Cloud%20sent%20data%20and%20final%20query.png)
+
+## Session Receipt
+
+![Session Receipt](Project%20Preview/Session%20receipt.png)
 ---
 
 ## What runs where
