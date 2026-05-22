@@ -22,9 +22,13 @@ For the full product vision and locked decisions, see [`memory/tee-orchestrator-
 
 ![Reassembled Answer and Signed Receipt](Project%20Preview/Reassembeled%20Answer%20and%20Signed%20receipt.png)
 
-## Cloud Sent Data and Final Query
+## Cloud Sent Data
 
 ![Cloud Sent Data and Final Query](Project%20Preview/Cloud%20sent%20data%20and%20final%20query.png)
+
+## Final Query
+
+![Final Query](Project%20Preview/Final%20query.png)
 
 ## Session Receipt
 
